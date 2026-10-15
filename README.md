@@ -2,7 +2,7 @@
 
 Storefront for digital products (courses, kits and infographics) for developers, in Spanish.
 
-**Live demo:** https://gleimbek.github.io/StackDrop/
+**Preview:** https://gleimbek.github.io/StackDrop/
 
 > 🚧 **Work in progress.** Payments aren't connected yet. Checkout doesn't ask for payment details or charge anything; confirming the order only simulates the purchase.
 
