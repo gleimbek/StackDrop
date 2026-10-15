@@ -1861,7 +1861,7 @@
             <form id="checkout-form" onsubmit="processPayment(event)" style="display: flex; flex-direction: column; gap: 0.85rem; flex-grow: 1; margin-top: 0.5rem;">
                 <div class="demo-notice" role="note">
                     <i class="fa-solid fa-circle-info"></i>
-                    <p><strong>Tienda de demostración.</strong> No se cobra nada ni se piden datos de pago. Al confirmar, la compra solo se simula.</p>
+                    <p><strong>Tienda en desarrollo.</strong> Los pagos todavía no están conectados: no se cobra nada ni se piden datos de pago. Al confirmar, la compra solo se simula.</p>
                 </div>
 
                 <div class="checkout-summary">
@@ -2279,7 +2279,7 @@
             document.getElementById('cart-step-items').style.display = 'none';
             const checkoutStep = document.getElementById('cart-step-checkout');
             checkoutStep.style.display = 'flex';
-            document.getElementById('cart-title').innerText = 'Checkout (demo)';
+            document.getElementById('cart-title').innerText = 'Checkout (en desarrollo)';
             
             const total = cart.reduce((sum, p) => sum + p.price, 0).toFixed(2);
             document.getElementById('checkout-total').innerText = `$${total}`;
@@ -2300,7 +2300,7 @@
             btnPay.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Simulando compra...';
 
             setTimeout(() => {
-                showToast('Compra simulada. Esta tienda es una demostración: no se cobró nada.', 'fa-circle-check');
+                showToast('Compra simulada. La tienda está en desarrollo y todavía no cobra.', 'fa-circle-check');
                 
                 cart = [];
                 updateCart();

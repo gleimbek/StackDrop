@@ -4,7 +4,7 @@ Storefront for digital products (courses, kits and infographics) for developers,
 
 **Live demo:** https://gleimbek.github.io/StackDrop/
 
-> This is a demo store. Checkout doesn't ask for payment details and doesn't charge anything; confirming the order only simulates the purchase.
+> 🚧 **Work in progress.** Payments aren't connected yet. Checkout doesn't ask for payment details or charge anything; confirming the order only simulates the purchase.
 
 ## What it does
 
