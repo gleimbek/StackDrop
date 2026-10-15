@@ -1347,6 +1347,24 @@
             font-size: 1rem;
         }
 
+        .demo-notice {
+            display: flex;
+            gap: 0.75rem;
+            align-items: flex-start;
+            padding: 0.85rem 1rem;
+            background: #fdf6e7;
+            border: 1px dashed var(--primary);
+            border-radius: 8px;
+            color: var(--text-dark);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .demo-notice i {
+            color: var(--primary-hover);
+            margin-top: 0.2rem;
+        }
+
         .checkout-summary {
             display: flex;
             justify-content: space-between;
@@ -1841,42 +1859,18 @@
             </button>
             
             <form id="checkout-form" onsubmit="processPayment(event)" style="display: flex; flex-direction: column; gap: 0.85rem; flex-grow: 1; margin-top: 0.5rem;">
-                <div class="form-group">
-                    <label for="buyer-name">Nombre completo</label>
-                    <input type="text" id="buyer-name" required placeholder="Ej. Germán Ramírez" class="form-input">
-                </div>
-
-                <div class="form-group">
-                    <label for="buyer-email">Correo para recibir descargas</label>
-                    <input type="email" id="buyer-email" required placeholder="correo@ejemplo.com" class="form-input">
-                </div>
-
-                <div class="form-group">
-                    <label for="card-number">Tarjeta de Crédito / Débito</label>
-                    <div class="input-icon-wrapper">
-                        <input type="text" id="card-number" required placeholder="4000 0000 0000 0000" maxlength="19" class="form-input">
-                        <i class="fa-solid fa-credit-card input-icon"></i>
-                    </div>
-                </div>
-
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem;">
-                    <div class="form-group">
-                        <label for="card-exp">Exp. (MM/AA)</label>
-                        <input type="text" id="card-exp" required placeholder="12/28" maxlength="5" class="form-input">
-                    </div>
-                    <div class="form-group">
-                        <label for="card-cvc">CVC</label>
-                        <input type="text" id="card-cvc" required placeholder="123" maxlength="4" class="form-input">
-                    </div>
+                <div class="demo-notice" role="note">
+                    <i class="fa-solid fa-circle-info"></i>
+                    <p><strong>Tienda de demostración.</strong> No se cobra nada ni se piden datos de pago. Al confirmar, la compra solo se simula.</p>
                 </div>
 
                 <div class="checkout-summary">
-                    <span>Total a pagar:</span>
+                    <span>Total:</span>
                     <strong id="checkout-total">$0.00</strong>
                 </div>
 
                 <button type="submit" class="btn-primary" id="btn-pay" style="width: 100%; justify-content: center; margin-top: auto;">
-                    <i class="fa-solid fa-lock"></i> Pagar y Descargar
+                    <i class="fa-solid fa-flask"></i> Simular compra
                 </button>
             </form>
         </div>
@@ -2285,7 +2279,7 @@
             document.getElementById('cart-step-items').style.display = 'none';
             const checkoutStep = document.getElementById('cart-step-checkout');
             checkoutStep.style.display = 'flex';
-            document.getElementById('cart-title').innerText = 'Checkout Seguro';
+            document.getElementById('cart-title').innerText = 'Checkout (demo)';
             
             const total = cart.reduce((sum, p) => sum + p.price, 0).toFixed(2);
             document.getElementById('checkout-total').innerText = `$${total}`;
@@ -2303,11 +2297,10 @@
             const originalText = btnPay.innerHTML;
 
             btnPay.disabled = true;
-            btnPay.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Procesando Pago...';
+            btnPay.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Simulando compra...';
 
             setTimeout(() => {
-                const email = document.getElementById('buyer-email').value;
-                showToast(`¡Pago procesado con éxito! Enlaces enviados a ${email}`, 'fa-circle-check');
+                showToast('Compra simulada. Esta tienda es una demostración: no se cobró nada.', 'fa-circle-check');
                 
                 cart = [];
                 updateCart();
