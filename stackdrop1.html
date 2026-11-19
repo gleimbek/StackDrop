@@ -1,0 +1,1660 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StackDrop | Marketplace Digital de Cursos, Kits e Infografías</title>
+    <!-- Google Fonts & FontAwesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-main: #e2e8f4 /* #f6faf9 */;
+            --bg-dark: #071a1c;
+            --navy-deep: #0c2b2c;
+            --primary: #c28743  /*#0d9488*/;
+            --primary-hover: #0f766e;
+            --accent: #34d399;
+            --text-dark: #0c2224;
+            --text-muted: white;
+            --text-light: #eafaf6;
+            --border-color: #dbe9e6;
+            --card-shadow: 0 4px 20px -2px rgba(12, 43, 44, 0.08);
+            --card-shadow-hover: 0 12px 30px -4px rgba(13, 148, 136, 0.18);
+            --font-display: 'Space Grotesk', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        h1, h2, h3, .logo, .card-title, .modal-title {
+            font-family: var(--font-display);
+        }
+
+        .price, .modal-price, .specs-table, .metric-number {
+            font-family: var(--font-mono);
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* --- Header & Navigation --- */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        nav {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+			background: #081327;
+        }
+
+        .logo img {
+            width:100%;
+        }
+
+        .logo span {
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+		
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .cart-icon-btn {
+            position: relative;
+            background: #f1f5f9;
+            border: 1px solid var(--border-color);
+            color: var(--navy-deep);
+            padding: 0.6rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+
+        .cart-icon-btn:hover {
+            background: #e2e8f0;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--primary);
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 700;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            background: radial-gradient(1200px 600px at 85% -10%, #081327 /*rgba(52, 211, 153, 0.18)*/, transparent),
+                        linear-gradient(135deg, #071a1c 0%, #24156E 55%, #081327 100%);
+            color: var(--text-light);
+            padding: 9rem 2rem 6rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #05235a /*rgba(66, 105, 176, 0.15)*/;
+            border: #081327 /*1px solid rgba(52, 211, 153, 0.3)*/;
+            color: white;
+            padding: 0.4rem 1rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 {
+            font-family: var(--font-display);
+            font-size: 3.2rem;
+            font-weight: 700;
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 span {
+            color: #c28743 /*#5eead4*/;
+        }
+
+        .hero p {
+            font-size: 1.15rem;
+            color: white /*#94a3b8*/;
+            margin-bottom: 2.5rem;
+        }
+
+        .hero-cta-group {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            padding: 0.85rem 1.8rem;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: background 0.2s, transform 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #c28743 /*transparent*/;
+            color: var(--text-light);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 0.85rem 1.8rem;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .hero-preview-card {
+            position: relative;
+            height: 380px;
+        }
+
+        .stack-visual {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .stack-layer {
+            position: absolute;
+            left: 50%;
+            width: 78%;
+            display: flex;
+            align-items: center;
+            gap: 0.9rem;
+            padding: 1.1rem 1.3rem;
+            border-radius: 14px;
+            background: rgba(234, 250, 246, 0.06);
+            border: 1px solid rgba(94, 234, 212, 0.25);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 40px -14px rgba(0, 0, 0, 0.45);
+            color: var(--text-light);
+            font-weight: 600;
+            font-size: 0.95rem;
+            animation: floatLayer 5s ease-in-out infinite;
+        }
+
+        .stack-layer i {
+            width: 38px;
+            height: 38px;
+            flex-shrink: 0;
+            border-radius: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            background: linear-gradient(135deg, var(--accent), var(--primary));
+            color: #06231f;
+        }
+
+        .stack-layer .stack-sub {
+            display: block;
+            font-weight: 500;
+            font-size: 0.78rem;
+            color: #d81e36 /* #9fd8cd */;
+            margin-top: 0.15rem;
+        }
+
+        .layer-1 { top: 14%;  transform: translateX(-58%) rotate(-2deg); z-index: 3; animation-delay: 0s; }
+        .layer-2 { top: 38%;  transform: translateX(-42%) rotate(1.5deg); z-index: 2; animation-delay: 0.6s; }
+        .layer-3 { top: 62%;  transform: translateX(-52%) rotate(-1deg); z-index: 1; animation-delay: 1.2s; }
+
+        @keyframes floatLayer {
+            0%, 100% { margin-top: 0; }
+            50% { margin-top: -10px; }
+        }
+
+        .stack-lock {
+            position: absolute;
+            bottom: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), var(--primary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            color: #06231f;
+            box-shadow: 0 0 0 8px rgba(52, 211, 153, 0.12), 0 15px 30px -8px rgba(0,0,0,0.5);
+            z-index: 4;
+        }
+
+        .stack-lock::before, .stack-lock::after {
+            content: '';
+            position: absolute;
+            border: 1px solid rgba(94, 234, 212, 0.45);
+            border-radius: 50%;
+            animation: pulseRing 2.4s ease-out infinite;
+        }
+
+        .stack-lock::before { width: 100%; height: 100%; }
+        .stack-lock::after { width: 100%; height: 100%; animation-delay: 1.2s; }
+
+        @keyframes pulseRing {
+            0% { transform: scale(1); opacity: 0.6; }
+            100% { transform: scale(1.9); opacity: 0; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .stack-layer, .stack-lock::before, .stack-lock::after { animation: none; }
+        }
+
+        /* --- Trust / Metric Bar --- */
+        .trust-bar {
+            background: #ffffff;
+            border-bottom: 1px solid var(--border-color);
+            padding: 2.5rem 2rem;
+        }
+
+        .trust-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .metric-number {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--navy-deep);
+        }
+
+        .metric-label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        /* --- Main Content Sections --- */
+		#tienda{
+			background: #e2e8f4;
+		}
+		
+        section {
+            padding: 6rem 2rem;
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 3.5rem;
+        }
+
+        .section-tag {
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .section-title {
+            font-size: 2.25rem;
+            font-weight: 800;
+            color: var(--navy-deep);
+            letter-spacing: -0.02em;
+        }
+
+        /* --- Filter Pills --- */
+        .filter-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 0.75rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            padding: 0.5rem 1.25rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--navy-deep);
+            color: white;
+            border-color: var(--navy-deep);
+        }
+
+        /* --- Product Grid --- */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--card-shadow-hover);
+            border-color: #cbd5e1;
+        }
+
+        .card-img-wrapper {
+            position: relative;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .card-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .card-img-wrapper:hover .card-img {
+            transform: scale(1.05);
+        }
+
+        .card-img-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(11, 19, 43, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            color: white;
+            font-weight: 600;
+            font-size: 0.9rem;
+            gap: 0.5rem;
+        }
+
+        .card-img-wrapper:hover .card-img-overlay {
+            opacity: 1;
+        }
+
+        .card-body {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .card-tag {
+            align-self: flex-start;
+            padding: 0.25rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 0.75rem;
+            background: #ecfdf5;
+            color: var(--primary);
+        }
+
+        .card-tag.tag-nutriatlas {
+            background: #ecfeff;
+            color: #0891b2;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--navy-deep);
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+        }
+
+        .card-title:hover {
+            color: var(--primary);
+        }
+
+        .card-desc {
+            color: var(--text-muted);
+            font-size: 0.925rem;
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 1rem;
+            border-top: 1px solid #f1f5f9;
+        }
+
+        .price {
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: var(--navy-deep);
+        }
+
+        .btn-buy {
+            background: var(--navy-deep);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.875rem;
+            transition: background 0.2s;
+        }
+
+        .btn-buy:hover {
+            background: var(--primary);
+        }
+
+        /* --- AMAZON-STYLE PRODUCT MODAL --- */
+        .product-modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(4px);
+            z-index: 3000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+        }
+
+        .product-modal-backdrop.active {
+            display: flex;
+        }
+
+        .product-modal {
+            background: #ffffff;
+            width: 100%;
+            max-width: 1050px;
+            max-height: 90vh;
+            border-radius: 16px;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2.5rem;
+            padding: 2.5rem;
+        }
+
+        .modal-close-btn {
+            position: absolute;
+            top: 1.25rem;
+            right: 1.25rem;
+            background: #f1f5f9;
+            border: none;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            z-index: 10;
+        }
+
+        .modal-close-btn:hover {
+            background: #e2e8f0;
+            color: var(--text-dark);
+        }
+
+        /* Gallery Column */
+        .modal-gallery {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .main-image-container {
+            width: 100%;
+            height: 340px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            background: #f8fafc;
+        }
+
+        .main-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .thumbnail-list {
+            display: flex;
+            gap: 0.75rem;
+            overflow-x: auto;
+            padding-bottom: 0.5rem;
+        }
+
+        .thumbnail-item {
+            width: 75px;
+            height: 75px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 2px solid var(--border-color);
+            cursor: pointer;
+            flex-shrink: 0;
+            opacity: 0.7;
+            transition: all 0.2s;
+        }
+
+        .thumbnail-item.active, .thumbnail-item:hover {
+            border-color: var(--primary);
+            opacity: 1;
+        }
+
+        .thumbnail-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Info Column */
+        .modal-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-badge {
+            align-self: flex-start;
+            padding: 0.25rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            background: #ecfdf5;
+            color: var(--primary);
+            margin-bottom: 0.75rem;
+        }
+
+        .modal-badge.tag-nutriatlas {
+            background: #ecfeff;
+            color: #0891b2;
+        }
+
+        .modal-title {
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: var(--navy-deep);
+            line-height: 1.25;
+            margin-bottom: 0.5rem;
+        }
+
+        .modal-price-row {
+            display: flex;
+            align-items: baseline;
+            gap: 1rem;
+            margin-bottom: 1.25rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .modal-price {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--navy-deep);
+        }
+
+        .modal-guarantee {
+            font-size: 0.85rem;
+            color: #16a34a;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .specs-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--navy-deep);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .specs-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.5rem;
+            font-size: 0.875rem;
+        }
+
+        .specs-table tr {
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .specs-table tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+
+        .specs-table td {
+            padding: 0.6rem 0.75rem;
+        }
+
+        .specs-table td.spec-label {
+            font-weight: 600;
+            color: var(--text-muted);
+            width: 40%;
+        }
+
+        .specs-table td.spec-value {
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+
+        .modal-features {
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-features h4 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--navy-deep);
+            margin-bottom: 0.5rem;
+        }
+
+        .modal-features ul {
+            padding-left: 1.2rem;
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        .modal-features li {
+            margin-bottom: 0.35rem;
+        }
+
+        .modal-actions {
+            margin-top: auto;
+            display: flex;
+            gap: 1rem;
+        }
+
+        /* --- Services Section --- */
+        .services-bg {
+            background: #ffffff;
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .service-card {
+            background: var(--bg-main);
+            padding: 2.5rem 2rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            transition: transform 0.2s;
+        }
+
+        .service-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .service-icon {
+            font-size: 1.8rem;
+            color: var(--primary);
+            background: #ccfbf1;
+            width: 55px;
+            height: 55px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.25rem;
+        }
+
+        .service-card h3 {
+            font-size: 1.25rem;
+            color: var(--navy-deep);
+            margin-bottom: 0.5rem;
+        }
+
+        .service-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* --- Portfolio Section --- */
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .portfolio-item {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            height: 260px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .portfolio-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .portfolio-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(11, 19, 43, 0.9);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 1.5rem;
+            opacity: 0;
+            transition: opacity 0.3s;
+            text-align: center;
+        }
+
+        .portfolio-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .portfolio-item:hover .portfolio-overlay {
+            opacity: 1;
+        }
+
+        /* --- About Section --- */
+        .about-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-text h2 {
+            font-size: 2.25rem;
+            font-weight: 800;
+            color: var(--navy-deep);
+            margin-bottom: 1rem;
+        }
+
+        .about-text p {
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+
+        /* --- Cart Modal --- */
+        .cart-modal {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 420px;
+            height: 100%;
+            background: #ffffff;
+            box-shadow: -10px 0 30px rgba(0, 0, 0, 0.15);
+            z-index: 2000;
+            transition: right 0.3s ease;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cart-modal.open {
+            right: 0;
+        }
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .cart-items {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 1rem 0;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .cart-total-container {
+            padding-top: 1rem;
+            border-top: 2px solid var(--border-color);
+        }
+
+        /* --- Footer --- */
+        footer {
+            background: #081327;;
+            color: var(--text-light);
+            padding: 4rem 2rem 2rem;
+        }
+
+        .footer-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 3rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+
+        .social-icon:hover {
+            background: var(--primary);
+        }
+
+        .copyright {
+            text-align: center;
+            color: #64748b;
+            font-size: 0.875rem;
+            margin-top: 2rem;
+        }
+
+        /* --- Toast Notifications --- */
+        .toast-stack {
+            position: fixed;
+            bottom: 1.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 4000;
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+            align-items: center;
+            pointer-events: none;
+        }
+
+        .toast {
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            background: var(--navy-deep);
+            color: var(--text-light);
+            padding: 0.8rem 1.25rem;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            box-shadow: 0 15px 35px -8px rgba(0,0,0,0.35);
+            border: 1px solid rgba(94, 234, 212, 0.25);
+            opacity: 0;
+            transform: translateY(14px);
+            animation: toastIn 0.35s ease forwards, toastOut 0.35s ease forwards 2.6s;
+        }
+
+        .toast i {
+            color: var(--accent);
+        }
+
+        @keyframes toastIn { to { opacity: 1; transform: translateY(0); } }
+        @keyframes toastOut { to { opacity: 0; transform: translateY(-10px); } }
+
+        /* --- Buy button feedback state --- */
+        .btn-buy.added {
+            background: var(--accent);
+            color: #06231f;
+        }
+
+        .cart-icon-btn.bump { animation: bump 0.4s ease; }
+        @keyframes bump { 30% { transform: scale(1.18); } 100% { transform: scale(1); } }
+
+        /* --- Scroll reveal --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .reveal.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .reveal { opacity: 1; transform: none; transition: none; }
+        }
+
+        @media (max-width: 900px) {
+            .hero-container, .about-container { grid-template-columns: 1fr; }
+            .trust-container { grid-template-columns: repeat(2, 1fr); }
+            .nav-links { display: none; }
+            .cart-modal { width: 100%; }
+            .product-modal { grid-template-columns: 1fr; padding: 1.5rem; gap: 1.5rem; }
+            .main-image-container { height: 250px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header>
+        <nav>
+            <div class="logo"><img src="image/logo_stackdrop.png" alt="StackDrop" style="height:100px; width:auto;"></div>
+            <ul class="nav-links">
+                <li><a href="#tienda">Catálogo</a></li>
+                <li><a href="#servicios">Servicios</a></li>
+                <li><a href="#portfolio">Proyectos</a></li>
+                <li><a href="#nosotros">Nosotros</a></li>
+            </ul>
+            <div class="nav-actions">
+                <button class="cart-icon-btn" onclick="toggleCart()">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    <span class="cart-count" id="cart-count">0</span>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- StackDrop Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div>
+                <div class="hero-badge">
+                    <i class="fa-solid fa-shield-halved"></i> Descarga segura · Entrega instantánea
+                </div>
+                <h1>Tu próximo recurso digital, <span>listo para desempacar</span></h1>
+                <p>Cursos, kits UI e infografías técnicas empacados y verificados, con entrega protegida y enlaces de descarga firmados al instante de tu compra.</p>
+                <div class="hero-cta-group">
+                    <a href="#tienda" class="btn-primary">Ver Catálogo <i class="fa-solid fa-arrow-right"></i></a>
+                    <a href="#servicios" class="btn-secondary">Servicios Custom</a>
+                </div>
+            </div>
+            <div class="hero-preview-card">
+                <div class="stack-visual">
+                    <div class="stack-layer layer-3"><i class="fa-solid fa-layer-group"></i><div><span>UI Kit Figma Premium</span><span class="stack-sub">+100 componentes</span></div></div>
+                    <div class="stack-layer layer-2"><i class="fa-solid fa-graduation-cap"></i><div><span>Master en JavaScript ES2026</span><span class="stack-sub">35h de video</span></div></div>
+                    <div class="stack-layer layer-1"><i class="fa-solid fa-chart-simple"></i><div><span>Infografía Técnica HD</span><span class="stack-sub">Vectorial, 300 DPI</span></div></div>
+                    <div class="stack-lock"><i class="fa-solid fa-lock"></i></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trust / Metrics Bar -->
+    <div class="trust-bar">
+        <div class="trust-container">
+            <div>
+                <div class="metric-number">10K+</div>
+                <div class="metric-label">Descargas Entregadas</div>
+            </div>
+            <div>
+                <div class="metric-number">256-bit</div>
+                <div class="metric-label">Enlaces Firmados (HMAC)</div>
+            </div>
+            <div>
+                <div class="metric-number">24/7</div>
+                <div class="metric-label">Soporte y Actualizaciones</div>
+            </div>
+            <div>
+                <div class="metric-number">100%</div>
+                <div class="metric-label">Entrega Instantánea</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Store Section -->
+    <section id="tienda">
+        <div class="section-header">
+            <span class="section-tag">Catálogo Digital</span>
+            <h2 class="section-title">Productos, Cursos e Infografías</h2>
+        </div>
+
+        <div class="filter-buttons">
+            <button class="filter-btn active" onclick="filterProducts('all')">Todos</button>
+            <button class="filter-btn" onclick="filterProducts('infografia')">Infografías</button>
+            <button class="filter-btn" onclick="filterProducts('curso')">Cursos</button>
+            <button class="filter-btn" onclick="filterProducts('recurso')">Kits UI & Ebooks</button>
+        </div>
+
+        <div class="products-grid" id="products-container"></div>
+    </section>
+
+    <!-- AMAZON-STYLE PRODUCT MODAL FICHA TÉCNICA -->
+    <div class="product-modal-backdrop" id="product-modal-backdrop" onclick="closeProductModal(event)">
+        <div class="product-modal" onclick="event.stopPropagation()">
+            <button class="modal-close-btn" onclick="closeProductModalDirect()">&times;</button>
+            
+            <!-- Gallery Column -->
+            <div class="modal-gallery">
+                <div class="main-image-container">
+                    <img id="modal-main-img" src="" alt="Vista Previa">
+                </div>
+                <div class="thumbnail-list" id="modal-thumbnail-list">
+                    <!-- Dynamic Thumbnails -->
+                </div>
+            </div>
+
+            <!-- Info Column -->
+            <div class="modal-info">
+                <span class="modal-badge" id="modal-badge">CATEGORÍA</span>
+                <h2 class="modal-title" id="modal-title">Título del Producto</h2>
+                
+                <div class="modal-price-row">
+                    <span class="modal-price" id="modal-price">$0.00</span>
+                    <span class="modal-guarantee"><i class="fa-solid fa-circle-check"></i> Descarga Inmediata & Licencia Comercial</span>
+                </div>
+
+                <div class="specs-title">
+                    <i class="fa-solid fa-list-check"></i> Ficha Técnica de Especificaciones
+                </div>
+
+                <table class="specs-table" id="modal-specs-table">
+                    <!-- Dynamic Specs -->
+                </table>
+
+                <div class="modal-features" id="modal-features-container">
+                    <h4>Lo que incluye este paquete:</h4>
+                    <ul id="modal-features-list">
+                        <!-- Dynamic Bullet Points -->
+                    </ul>
+                </div>
+
+                <div class="modal-actions">
+                    <button class="btn-primary" style="flex: 1; justify-content: center;" id="modal-buy-btn">
+                        <i class="fa-solid fa-cart-plus"></i> Agregar al Carrito
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Services Section -->
+    <div class="services-bg">
+        <section id="servicios">
+            <div class="section-header">
+                <span class="section-tag">Servicios a la Medida</span>
+                <h2 class="section-title">Más allá del catálogo</h2>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon"><i class="fa-solid fa-code"></i></div>
+                    <h3>Desarrollo Web a Medida</h3>
+                    <p>Sitios y aplicaciones ligeras, rápidas y optimizadas para conversión, construidas por encargo.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fa-solid fa-layer-group"></i></div>
+                    <h3>Kits UI & Sistemas de Diseño</h3>
+                    <p>Librerías de componentes consistentes y documentadas, listas para tu equipo.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fa-solid fa-diagram-project"></i></div>
+                    <h3>Infografías y Recursos Premium</h3>
+                    <p>Diseño de reportes visuales, guías botánicas y material técnico en alta resolución.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Portfolio Section -->
+    <section id="portfolio">
+        <div class="section-header">
+            <span class="section-tag">Portafolio</span>
+            <h2 class="section-title">Proyectos Destacados</h2>
+        </div>
+        <div class="portfolio-grid">
+            <div class="portfolio-item">
+                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=600&q=80" alt="Proyecto">
+                <div class="portfolio-overlay">
+                    <h3>SaaS Analytics Platform</h3>
+                    <p>Diseño e implementación de panel ejecutivo</p>
+                </div>
+            </div>
+            <div class="portfolio-item">
+                <img src="https://images.unsplash.com/photo-1515586000433-45406d8e6662?auto=format&fit=crop&w=600&q=80" alt="Proyecto">
+                <div class="portfolio-overlay">
+                    <h3>Serie de Infografías Botánicas</h3>
+                    <p>Ilustración técnica e infografías alimenticias</p>
+                </div>
+            </div>
+            <div class="portfolio-item">
+                <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=600&q=80" alt="Proyecto">
+                <div class="portfolio-overlay">
+                    <h3>Design System B2B</h3>
+                    <p>Librería UI corporativa modular</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="nosotros">
+        <div class="about-container">
+            <div class="about-text">
+                <h2>Recursos empacados, no improvisados</h2>
+                <p>StackDrop nació para simplificar cómo profesionales modernos descubren, compran y reciben conocimiento y herramientas digitales: sin fricción, sin sorpresas, con entrega verificada.</p>
+                <a href="#servicios" class="btn-primary">Conoce Más</a>
+            </div>
+            <div>
+                <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=600&q=80" alt="Equipo" style="width: 100%; border-radius: 12px; box-shadow: var(--card-shadow);">
+            </div>
+        </div>
+    </section>
+
+    <!-- Cart Modal -->
+    <div class="cart-modal" id="cart-modal">
+        <div class="cart-header">
+            <h3>Tu Pedido</h3>
+            <button onclick="toggleCart()" style="background:none; border:none; font-size: 1.5rem; cursor:pointer;">&times;</button>
+        </div>
+        <div class="cart-items" id="cart-items"></div>
+        <div class="cart-total-container">
+            <div style="display:flex; justify-content:space-between; font-weight:700; font-size: 1.2rem;">
+                <span>Total:</span>
+                <span>$<span id="cart-total">0.00</span></span>
+            </div>
+            <button class="btn-primary" style="width: 100%; margin-top: 1rem; justify-content: center;" onclick="checkout()">Completar Orden</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="logo" style="color:white;"><img src="image/logo_stackdrop.png" alt="StackDrop" style="height:100px; width:auto;"> </div>
+            <div class="social-links">
+                <a href="#" class="social-icon"><i class="fa-brands fa-twitter"></i></a>
+                <a href="#" class="social-icon"><i class="fa-brands fa-linkedin-in"></i></a>
+                <a href="#" class="social-icon"><i class="fa-brands fa-github"></i></a>
+            </div>
+        </div>
+        <div class="copyright">&copy; 2026 StackDrop Digital Marketplace. Todos los derechos reservados.</div>
+    </footer>
+
+    <!-- Toast Notifications -->
+    <div class="toast-stack" id="toast-stack"></div>
+
+    <!-- Logic -->
+    <script>
+        const products = [
+            // INFOGRAFÍAS NUTRIATLAS
+            {
+                id: 101,
+                title: 'Guía Ilustrada de Hierbas Medicinales',
+                category: 'infografia',
+                price: 14.99,
+                badge: 'Botánica',
+                image: 'https://images.unsplash.com/photo-1515586000433-45406d8e6662?auto=format&fit=crop&w=800&q=80',
+                gallery: [
+                    'https://images.unsplash.com/photo-1515586000433-45406d8e6662?auto=format&fit=crop&w=800&q=80',
+                    'https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=800&q=80',
+                    'https://images.unsplash.com/photo-1466637574441-749b8f19452f?auto=format&fit=crop&w=800&q=80'
+                ],
+                desc: 'Origen, propiedades antioxidantes y usos terapéuticos de plantas aromáticas.',
+                specs: {
+                    'Formato de Entrega': 'PDF Vectorial + Figma Source (.fig)',
+                    'Resolución': '300 DPI (A2 / A3 Impresión de alta fidelidad)',
+                    'Paleta de Color': 'CMYK & RGB (Apto para web e imprenta)',
+                    'Licencia de Uso': 'Comercial + Personal (Sin límite de impresiones)',
+                    'Temática': 'Botánica, Nutrición y Maridaje Culinario'
+                },
+                features: [
+                    'Mapeo geográfico de origen de 12 plantas medicinales.',
+                    'Gráficos de concentración de antioxidantes y aceites esenciales.',
+                    'Guía de preservación y secado de hojas.'
+                ]
+            },
+            {
+                id: 102,
+                title: 'Tabla Nutricional de Granos y Legumbres',
+                category: 'infografia',
+                price: 12.99,
+                badge: 'Botánica',
+                image: 'https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=800&q=80',
+                gallery: [
+                    'https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=800&q=80',
+                    'https://images.unsplash.com/photo-1543339308-43e59d6b73a6?auto=format&fit=crop&w=800&q=80',
+                    'https://images.unsplash.com/photo-1515543237350-b3eea1ec8082?auto=format&fit=crop&w=800&q=80'
+                ],
+                desc: 'Anatomía del grano, aporte de fibra, proteínas e índice glucémico.',
+                specs: {
+                    'Formato de Entrega': 'PDF Vectorial + SVG + PNG HD',
+                    'Resolución': '300 DPI (A2 Poster)',
+                    'Licencia de Uso': 'Comercial + Educativa',
+                    'Temática': 'Botánica / Superalimentos'
+                },
+                features: [
+                    'Desglose anatómico en capas: salvado, endospermo y germen.',
+                    'Comparativa de índice glucémico y velocidad de absorción.',
+                    'Perfil de aminoácidos esenciales por porción.'
+                ]
+            },
+            {
+                id: 103,
+                title: 'Mapa de Fitonutrientes y Colores',
+                category: 'infografia',
+                price: 16.99,
+                badge: 'Botánica',
+                image: 'https://images.unsplash.com/photo-1610832958506-aa56368176cf?auto=format&fit=crop&w=800&q=80',
+                gallery: [
+                    'https://images.unsplash.com/photo-1610832958506-aa56368176cf?auto=format&fit=crop&w=800&q=80',
+                    'https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=800&q=80'
+                ],
+                desc: 'Guía cromática de frutas y verduras según sus beneficios fisiológicos.',
+                specs: {
+                    'Formato de Entrega': 'PDF Vectorial Scalable',
+                    'Resolución': 'Vectorial Infinito',
+                    'Licencia de Uso': 'Comercial Completa'
+                },
+                features: [
+                    'Clasificación por pigmentos: Licopeno, Antocianinas, Clorofila, Betacarotenos.',
+                    'Efectos biológicos en sistema inmune, ocular y vascular.'
+                ]
+            },
+            // INFOGRAFÍAS DEVPORTAL
+            {
+                id: 104,
+                title: 'Roadmap Visual JavaScript ES2026',
+                category: 'infografia',
+                price: 18.99,
+                badge: 'Dev Kit',
+                image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80',
+                gallery: [
+                    'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80',
+                    'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=800&q=80'
+                ],
+                desc: 'Diagrama visual de JS moderno, Event Loop y frameworks populares.',
+                specs: {
+                    'Formato de Entrega': 'PDF + Figma Source Code + PNG 4K',
+                    'Compatibilidad': 'Figma, Illustrator, Adobe Reader',
+                    'Licencia': 'Licencia de Desarrollador / Personal'
+                },
+                features: [
+                    'Arquitectura paso a paso: Call Stack, Web APIs, Task Queue y Microtasks.',
+                    'Comparativa técnica de sintaxis moderna y mejores prácticas.'
+                ]
+            },
+            {
+                id: 105,
+                title: 'HTML5 Semántico & CSS Grid Cheat Sheet',
+                category: 'infografia',
+                price: 11.99,
+                badge: 'Dev Kit',
+                image: 'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=800&q=80',
+                gallery: [
+                    'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=800&q=80',
+                    'https://images.unsplash.com/photo-1522542550221-31fd19575a2d?auto=format&fit=crop&w=800&q=80'
+                ],
+                desc: 'Referencia rápida de maquetación responsiva, flexbox y accesibilidad.',
+                specs: {
+                    'Formato de Entrega': 'PDF Vectorial + SVG Printable',
+                    'Resolución': '300 DPI (Ideal Desktop Wallpaper / Poster)'
+                },
+                features: [
+                    'Esquema visual de etiquetas semánticas para SEO.',
+                    'Guía de propiedades CSS Grid & Flexbox en diagramas.'
+                ]
+            },
+            // CURSOS
+            {
+                id: 1,
+                title: 'Master en JavaScript ES2026',
+                category: 'curso',
+                price: 49.99,
+                badge: 'Curso Online',
+                image: 'https://images.unsplash.com/photo-1579468118864-1b9ea3c0db4a?auto=format&fit=crop&w=800&q=80',
+                gallery: [
+                    'https://images.unsplash.com/photo-1579468118864-1b9ea3c0db4a?auto=format&fit=crop&w=800&q=80',
+                    'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80'
+                ],
+                desc: 'Capacitación completa en desarrollo moderno e integración API.',
+                specs: {
+                    'Duración': '35 Horas de Video HD en Vivo & Grabado',
+                    'Nivel': 'Principiante a Avanzado',
+                    'Certificado': 'Certificación Digital Verificable',
+                    'Acceso': 'De por vida + Actualizaciones gratuitas'
+                },
+                features: [
+                    '10 Proyectos reales construidos paso a paso.',
+                    'Acceso a comunidad privada de estudiantes en Discord.',
+                    'Código fuente completo disponible en GitHub.'
+                ]
+            },
+            {
+                id: 3,
+                title: 'UI Kit Dashboard Figma Premium',
+                category: 'recurso',
+                price: 29.99,
+                badge: 'Kit UI',
+                image: 'https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?auto=format&fit=crop&w=800&q=80',
+                gallery: [
+                    'https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?auto=format&fit=crop&w=800&q=80',
+                    'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80'
+                ],
+                desc: 'Librería con +100 componentes optimizados para SaaS.',
+                specs: {
+                    'Archivo Source': '.FIG (Figma Native Design System)',
+                    'Componentes': '+100 Variables, Auto-Layout 5.0, Dark/Light Mode',
+                    'Licencia': 'Licencia Comercial para ilimitados clientes'
+                },
+                features: [
+                    'Gráficos, tablas interactivas y formularios responsivos.',
+                    'Soporte completo para Design Tokens.'
+                ]
+            }
+        ];
+
+        let cart = [];
+        let currentActiveProduct = null;
+
+        function renderProducts(items) {
+            document.getElementById('products-container').innerHTML = items.map(p => `
+                <div class="card">
+                    <div class="card-img-wrapper" onclick="openProductModal(${p.id})">
+                        <img src="${p.image}" alt="${p.title}" class="card-img">
+                        <div class="card-img-overlay">
+                            <i class="fa-solid fa-magnifying-glass-plus"></i> Ver Galería y Ficha Técnica
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <span class="card-tag ${p.badge === 'Botánica' ? 'tag-nutriatlas' : ''}">${p.badge || p.category}</span>
+                        <h3 class="card-title" onclick="openProductModal(${p.id})">${p.title}</h3>
+                        <p class="card-desc">${p.desc}</p>
+                        <div class="card-footer">
+                            <span class="price">$${p.price}</span>
+                            <button class="btn-buy" onclick="addToCart(${p.id}, this)">Añadir al Carrito</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        /* --- PRODUCT MODAL (AMAZON STYLE) LOGIC --- */
+        function openProductModal(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+
+            currentActiveProduct = product;
+
+            // Set Title & Basic Info
+            document.getElementById('modal-title').innerText = product.title;
+            document.getElementById('modal-price').innerText = `$${product.price.toFixed(2)}`;
+            document.getElementById('modal-badge').innerText = product.badge || product.category;
+            
+            if (product.badge === 'Botánica') {
+                document.getElementById('modal-badge').className = 'modal-badge tag-nutriatlas';
+            } else {
+                document.getElementById('modal-badge').className = 'modal-badge';
+            }
+
+            // Set Main Image & Gallery
+            const gallery = product.gallery || [product.image];
+            document.getElementById('modal-main-img').src = gallery[0];
+
+            const thumbnailContainer = document.getElementById('modal-thumbnail-list');
+            thumbnailContainer.innerHTML = gallery.map((imgUrl, index) => `
+                <div class="thumbnail-item ${index === 0 ? 'active' : ''}" onclick="switchModalImage('${imgUrl}', this)">
+                    <img src="${imgUrl}" alt="Thumbnail ${index + 1}">
+                </div>
+            `).join('');
+
+            // Render Specs Table
+            const specsTable = document.getElementById('modal-specs-table');
+            if (product.specs) {
+                specsTable.innerHTML = Object.entries(product.specs).map(([key, val]) => `
+                    <tr>
+                        <td class="spec-label">${key}</td>
+                        <td class="spec-value">${val}</td>
+                    </tr>
+                `).join('');
+            } else {
+                specsTable.innerHTML = '';
+            }
+
+            // Render Bullet Features
+            const featuresList = document.getElementById('modal-features-list');
+            if (product.features && product.features.length) {
+                featuresList.innerHTML = product.features.map(f => `<li>${f}</li>`).join('');
+                document.getElementById('modal-features-container').style.display = 'block';
+            } else {
+                document.getElementById('modal-features-container').style.display = 'none';
+            }
+
+            // Bind Buy Button in Modal
+            const buyBtn = document.getElementById('modal-buy-btn');
+            buyBtn.onclick = function() {
+                addToCart(product.id);
+                closeProductModalDirect();
+            };
+
+            // Show Backdrop
+            document.getElementById('product-modal-backdrop').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function switchModalImage(imgUrl, element) {
+            document.getElementById('modal-main-img').src = imgUrl;
+            document.querySelectorAll('.thumbnail-item').forEach(el => el.classList.remove('active'));
+            element.classList.add('active');
+        }
+
+        function closeProductModal(event) {
+            if (event.target.id === 'product-modal-backdrop') {
+                closeProductModalDirect();
+            }
+        }
+
+        function closeProductModalDirect() {
+            document.getElementById('product-modal-backdrop').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        /* --- STORE & CART LOGIC --- */
+        function filterProducts(cat) {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+            renderProducts(cat === 'all' ? products : products.filter(p => p.category === cat));
+        }
+
+        function showToast(message, icon = 'fa-circle-check') {
+            const stack = document.getElementById('toast-stack');
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.innerHTML = `<i class="fa-solid ${icon}"></i> ${message}`;
+            stack.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+
+        function addToCart(id, btn) {
+            const product = products.find(p => p.id === id);
+            cart.push(product);
+            updateCart();
+            showToast(`${product.title} añadido al carrito`, 'fa-cart-shopping');
+
+            document.querySelector('.cart-icon-btn').classList.remove('bump');
+            void document.querySelector('.cart-icon-btn').offsetWidth; // restart animation
+            document.querySelector('.cart-icon-btn').classList.add('bump');
+
+            if (btn) {
+                const original = btn.innerHTML;
+                btn.classList.add('added');
+                btn.innerHTML = '<i class="fa-solid fa-check"></i> Añadido';
+                setTimeout(() => { btn.classList.remove('added'); btn.innerHTML = original; }, 1600);
+            }
+        }
+
+        function updateCart() {
+            document.getElementById('cart-count').innerText = cart.length;
+            document.getElementById('cart-items').innerHTML = cart.map((item, idx) => `
+                <div class="cart-item">
+                    <div><strong>${item.title}</strong><div>$${item.price}</div></div>
+                    <button onclick="removeFromCart(${idx})" style="background:none; border:none; color:#ef4444; cursor:pointer;"><i class="fa-solid fa-trash"></i></button>
+                </div>
+            `).join('');
+            document.getElementById('cart-total').innerText = cart.reduce((sum, p) => sum + p.price, 0).toFixed(2);
+        }
+
+        function removeFromCart(idx) { cart.splice(idx, 1); updateCart(); }
+        function toggleCart() { document.getElementById('cart-modal').classList.toggle('open'); }
+        function checkout() {
+            if (!cart.length) {
+                showToast('Tu carrito está vacío.', 'fa-circle-exclamation');
+                return;
+            }
+            showToast('¡Listo! Tus enlaces de descarga fueron generados y protegidos.', 'fa-lock');
+            cart = [];
+            updateCart();
+            toggleCart();
+        }
+
+        /* --- Scroll Reveal --- */
+        function initScrollReveal() {
+            const targets = document.querySelectorAll('.card, .service-card, .portfolio-item');
+            targets.forEach(el => el.classList.add('reveal'));
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.12 });
+
+            targets.forEach(el => observer.observe(el));
+        }
+
+        renderProducts(products);
+        initScrollReveal();
+
+        // Re-run reveal setup whenever the catalog filter re-renders new cards
+        const originalRenderProducts = renderProducts;
+        renderProducts = function(items) {
+            originalRenderProducts(items);
+            initScrollReveal();
+        };
+    </script>
+</body>
+</html>

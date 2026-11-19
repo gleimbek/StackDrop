@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Catálogo Digital | StackDrop</title>
+		<!-- Google Fonts & FontAwesome -->
+		<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+		<link rel="icon" href="image/icon/favicon-32.png" sizes="32x32" type="image/png" />
+		<link rel="apple-touch-icon" href="image/icon/apple-touch-icon.png" />
+		<link rel="stylesheet" href="css/styles.css" />
+	</head>
+	<body>
+
+		<!-- Header Navigation -->
+		<header>
+			<nav>
+				<div class="logo">
+					<img src="image/logo1.png" alt="StackDrop">
+					<img src="image/logo2.png" alt="StackDrop">
+				</div>
+				<ul class="nav-links" id="nav-links">
+					<li><a href="index.html" class="active">Inicio</a></li>
+					<li><a href="catalogo.html">Catálogo</a></li>
+					<li><a href="servicios.html">Servicios</a></li>
+					<li><a href="proyectos.html">Proyectos</a></li>
+					<li><a href="nosotros.html">Nosotros</a></li>
+				</ul>
+				<div class="nav-actions">
+					<button class="cart-icon-btn" onclick="toggleCart()" aria-label="Ver carrito">
+						<i class="fa-solid fa-bag-shopping"></i>
+						<span class="cart-count" id="cart-count">0</span>
+					</button>
+					<button class="nav-toggle" id="nav-toggle" onclick="toggleMobileMenu()" aria-label="Abrir menú">
+						<i class="fa-solid fa-bars"></i>
+					</button>
+				</div>
+			</nav>
+		</header>
+
+		<main style="padding-top: 5rem;">
+			<!-- Store Section -->
+			<section id="tienda">
+				<div class="section-header">
+					<span class="section-tag">Catálogo Digital</span>
+					<h2 class="section-title">Productos, Cursos e Infografías</h2>
+				</div>
+
+				<!-- Filtros de categoría -->
+				<div class="filter-buttons">
+					<button class="filter-btn active" onclick="filterProducts('all', event)">Todos</button>
+					<button class="filter-btn" onclick="filterProducts('infografia', event)">Infografías</button>
+					<button class="filter-btn" onclick="filterProducts('curso', event)">Cursos</button>
+					<button class="filter-btn" onclick="filterProducts('recurso', event)">Kits UI & Ebooks</button>
+				</div>
+
+				<!-- Contenedor dinámico inyectado por script.js -->
+				<div class="products-grid" id="products-container"></div>
+			</section>
+		</main>
+
+		<!-- PRODUCT MODAL FICHA TÉCNICA -->
+		<div class="product-modal-backdrop" id="product-modal-backdrop" onclick="closeProductModal(event)">
+			<div class="product-modal" onclick="event.stopPropagation()">
+				<button class="modal-close-btn" onclick="closeProductModalDirect()" aria-label="Cerrar modal">&times;</button>
+				
+				<div class="modal-gallery">
+					<div class="main-image-container">
+						<img id="modal-main-img" src="" alt="Vista Previa">
+					</div>
+					<div class="thumbnail-list" id="modal-thumbnail-list"></div>
+				</div>
+
+				<div class="modal-info">
+					<span class="modal-badge" id="modal-badge">CATEGORÍA</span>
+					<h2 class="modal-title" id="modal-title">Título del Producto</h2>
+					
+					<div class="modal-price-row">
+						<span class="modal-price" id="modal-price">$0.00</span>
+						<span class="modal-guarantee"><i class="fa-solid fa-circle-check"></i> Descarga Inmediata & Licencia Comercial</span>
+					</div>
+
+					<div class="specs-title">
+						<i class="fa-solid fa-list-check"></i> Ficha Técnica de Especificaciones
+					</div>
+
+					<table class="specs-table" id="modal-specs-table"></table>
+
+					<div class="modal-features" id="modal-features-container">
+						<h4>Lo que incluye este paquete:</h4>
+						<ul id="modal-features-list"></ul>
+					</div>
+
+					<div class="modal-actions">
+						<button class="btn-primary" style="flex: 1; justify-content: center;" id="modal-buy-btn">
+							<i class="fa-solid fa-cart-plus"></i> Agregar al Carrito
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- CART & CHECKOUT MODAL -->
+		<div class="cart-modal" id="cart-modal">
+			<div class="cart-header">
+				<h3 id="cart-title">Tu Pedido</h3>
+				<button onclick="toggleCart()" style="background:none; border:none; font-size: 1.5rem; cursor:pointer;" aria-label="Cerrar carrito">&times;</button>
+			</div>
+
+			<!-- PASO 1: LISTA DE PRODUCTOS -->
+			<div id="cart-step-items" style="display: flex; flex-direction: column; flex-grow: 1;">
+				<div class="cart-items" id="cart-items"></div>
+				<div class="cart-total-container">
+					<div style="display:flex; justify-content:space-between; font-weight:700; font-size: 1.2rem;">
+						<span>Total:</span>
+						<span>$<span id="cart-total">0.00</span></span>
+					</div>
+					<button class="btn-primary" style="width: 100%; margin-top: 1rem; justify-content: center;" onclick="goToCheckout()">
+						Proceder al Pago <i class="fa-solid fa-arrow-right"></i>
+					</button>
+				</div>
+			</div>
+
+			<!-- PASO 2: FORMULARIO CHECKOUT -->
+			<div id="cart-step-checkout" style="display: none; flex-direction: column; flex-grow: 1;">
+				<button class="btn-back" onclick="backToCart()">
+					<i class="fa-solid fa-arrow-left"></i> Volver a la lista
+				</button>
+				
+				<form id="checkout-form" onsubmit="processPayment(event)" style="display: flex; flex-direction: column; gap: 0.85rem; flex-grow: 1; margin-top: 0.5rem;">
+					<div class="form-group">
+						<label for="buyer-name">Nombre completo</label>
+						<input type="text" id="buyer-name" required placeholder="Ej. Germán Ramírez" class="form-input">
+					</div>
+
+					<div class="form-group">
+						<label for="buyer-email">Correo para recibir descargas</label>
+						<input type="email" id="buyer-email" required placeholder="correo@ejemplo.com" class="form-input">
+					</div>
+
+					<div class="form-group">
+						<label for="card-number">Tarjeta de Crédito / Débito</label>
+						<div class="input-icon-wrapper">
+							<input type="text" id="card-number" required placeholder="4000 0000 0000 0000" maxlength="19" class="form-input">
+							<i class="fa-solid fa-credit-card input-icon"></i>
+						</div>
+					</div>
+
+					<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem;">
+						<div class="form-group">
+							<label for="card-exp">Exp. (MM/AA)</label>
+							<input type="text" id="card-exp" required placeholder="12/28" maxlength="5" class="form-input">
+						</div>
+						<div class="form-group">
+							<label for="card-cvc">CVC</label>
+							<input type="text" id="card-cvc" required placeholder="123" maxlength="4" class="form-input">
+						</div>
+					</div>
+
+					<div class="checkout-summary">
+						<span>Total a pagar:</span>
+						<strong id="checkout-total">$0.00</strong>
+					</div>
+
+					<button type="submit" class="btn-primary" id="btn-pay" style="width: 100%; justify-content: center; margin-top: auto;">
+						<i class="fa-solid fa-lock"></i> Pagar y Descargar
+					</button>
+				</form>
+			</div>
+		</div>
+
+		<!-- Footer -->
+		<!-- FOOTER MODERNO -->
+		<footer>
+			<div class="footer-container">
+				<!-- Columna 1: Marca & Descripción -->
+				<div class="footer-brand">
+					<div class="logo">
+						<a href="index.html" style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+							<img src="image/logo1.png" alt="StackDrop" style="height: 82px; width: auto;">
+							<img src="image/logo2.png" alt="StackDrop" style="height: 82px; width: auto;">
+						</a>
+					</div>
+					<p>Marketplace de recursos digitales verificados, cursos y soluciones web a la medida con entrega instantánea.</p>
+				</div>
+
+				<!-- Columna 2: Navegación -->
+				<div class="footer-col">
+					<h4>Navegación</h4>
+					<ul>
+						<li><a href="index.html">Inicio</a></li>
+						<li><a href="catalogo.html">Catálogo Digital</a></li>
+						<li><a href="servicios.html">Servicios Custom</a></li>
+						<li><a href="proyectos.html">Portafolio</a></li>
+						<li><a href="nosotros.html">Nosotros</a></li>
+					</ul>
+				</div>
+
+				<!-- Columna 3: Categorías -->
+				<div class="footer-col">
+					<h4>Recursos</h4>
+					<ul>
+						<li><a href="catalogo.html">Infografías HD</a></li>
+						<li><a href="catalogo.html">Cursos Online</a></li>
+						<li><a href="catalogo.html">Kits UI Figma</a></li>
+						<li><a href="nosotros.html">Garantía HMAC</a></li>
+					</ul>
+				</div>
+
+				<!-- Columna 4: Novedades / Newsletter -->
+				<div class="footer-col footer-newsletter">
+					<h4>Novedades</h4>
+					<p>Recibe notificaciones sobre nuevas plantillas e infografías.</p>
+					<form class="newsletter-form" onsubmit="submitNewsletter(event)">
+						<input type="email" id="newsletter-email" placeholder="tu@correo.com" required>
+						<button type="submit" id="btn-newsletter" aria-label="Suscribirse">
+							<i class="fa-solid fa-arrow-right"></i>
+						</button>
+					</form>
+				</div>
+			</div>
+
+			<!-- Barra Inferior de Derechos y Redes -->
+			<div class="footer-bottom">
+				<div class="copyright">&copy; 2026 StackDrop Digital Marketplace. Todos los derechos reservados.</div>
+				<div class="social-links">
+					<a href="#" class="social-icon" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
+					<a href="#" class="social-icon" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+					<a href="https://github.com/gleimbek" target="_blank" class="social-icon" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+				</div>
+			</div>
+		</footer>
+
+		<div class="toast-stack" id="toast-stack"></div>
+	</body>
+	<script src="js/script.js"></script>
+</html>
